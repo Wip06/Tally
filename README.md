@@ -1,30 +1,30 @@
-# Tally — Compteur de Points
+# Tally — Score Counter
 
-Petite PWA (Progressive Web App) 100 % hors-ligne pour compter les points de plusieurs équipes en simultané — pratique pour les jeux de société, les cartes, le sport entre amis, etc. Aucun compte à créer, aucun serveur : tout est stocké localement dans le navigateur.
+Small 100% offline PWA (Progressive Web App) for keeping score for several teams at once — handy for board games, card games, sports with friends, etc. No account to create, no server: everything is stored locally in the browser.
 
-🔗 **Démo en ligne** : https://wip06.github.io/Tally/
+**Live demo**: https://wip06.github.io/Tally/
 
-## Fonctionnalités
+## Features
 
-- **Plusieurs compteurs en parallèle**, tous visibles sur la page d'accueil.
-- Pour chaque compteur : autant d'équipes que voulu, avec **nom et couleur personnalisables**.
-- Deux modes de score, au choix par compteur :
-  - **Clic +1** : on touche le score pour l'incrémenter (bouton −1 pour corriger).
-  - **Libre** : saisie manuelle du score.
-- Réinitialisation des scores, ajout/suppression d'équipes et de compteurs.
-- **Fonctionne hors-ligne** une fois chargée (service worker + cache local).
-- **Installable** sur mobile ou desktop comme une vraie application (Ajouter à l'écran d'accueil).
-- Aucune inscription, aucune donnée envoyée nulle part : tout reste dans le `localStorage` de l'appareil.
+- **Several counters in parallel**, all visible on the home page.
+- For each counter: as many teams as you want, with **customizable name and color**.
+- Two scoring modes, selectable per counter:
+  - **Tap +1**: tap the score to increment it (−1 button to correct).
+  - **Free**: manual score entry.
+- Reset scores, add/remove teams and counters.
+- **Works offline** once loaded (service worker + local cache).
+- **Installable** on mobile or desktop as a real app (Add to Home Screen).
+- No sign-up, no data sent anywhere: everything stays in the device's `localStorage`.
 
-## Stack technique
+## Tech stack
 
-Vanilla HTML / CSS / JavaScript, sans framework, sans étape de build, sans dépendance externe. Le tout tient dans quelques fichiers :
+Vanilla HTML / CSS / JavaScript, no framework, no build step, no external dependency. Everything fits in a handful of files:
 
 ```
-index.html      Structure de la page
-styles.css      Thème (pastel turquoise) et mise en page responsive
-app.js          Logique de l'application (état, rendu, interactions)
-manifest.json   Manifeste PWA (nom, icônes, couleurs)
-sw.js           Service worker (cache hors-ligne)
-icon.svg        Icône de l'application
+index.html      Page structure
+styles.css      Theme (Catppuccin Frappé) and responsive layout
+app.js          Application logic (state, rendering, interactions)
+manifest.json   PWA manifest (name, icons, colors)
+sw.js           Service worker (offline cache)
+icon.svg        App icon
 ```
