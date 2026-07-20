@@ -42,8 +42,8 @@
       name: name && name.trim() ? name.trim() : 'Compteur sans nom',
       mode: 'tap',
       teams: [
-        { id: uid('t'), name: 'Équipe 1', color: PALETTE[0], score: 0 },
-        { id: uid('t'), name: 'Équipe 2', color: PALETTE[1], score: 0 }
+        { id: uid('t'), name: 'Équipe 1', color: PALETTE[9], score: 0 },
+        { id: uid('t'), name: 'Équipe 2', color: PALETTE[8], score: 0 }
       ]
     };
     state.counters.push(counter);
