@@ -2,7 +2,7 @@
 
 Petite PWA (Progressive Web App) 100 % hors-ligne pour compter les points de plusieurs équipes en simultané — pratique pour les jeux de société, les cartes, le sport entre amis, etc. Aucun compte à créer, aucun serveur : tout est stocké localement dans le navigateur.
 
-🔗 **Démo en ligne** : https://wip06.github.io/tally/ (une fois GitHub Pages activé sur ce repo)
+🔗 **Démo en ligne** : https://wip06.github.io/Tally/
 
 ## Fonctionnalités
 

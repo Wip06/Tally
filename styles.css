@@ -1,19 +1,22 @@
 :root {
-  --bg-1: #E6F7F9;
-  --bg-2: #CDEEF1;
-  --surface: #FFFFFF;
-  --text: #1C3A3D;
-  --text-muted: #5C8A8F;
-  --border: #C7E8EC;
-  --primary: #3FC7D3;
-  --primary-dark: #2CA7B4;
-  --primary-contrast: #06282B;
-  --danger: #FF9B9B;
+  --bg-1: #303446;
+  --bg-2: #292c3c;
+  --surface: #414559;
+  --text: #c6d0f5;
+  --text-strong: #ffffff;
+  --text-muted: #a5adce;
+  --border: #51576d;
+  --primary: #ca9ee6;
+  --primary-dark: #ab86c3;
+  --primary-contrast: #232634;
+  --danger: #e78284;
+  --danger-dark: #d07577;
+  --danger-contrast: #232634;
   --radius-lg: 24px;
   --radius-md: 16px;
   --radius-sm: 10px;
-  --shadow-soft: 0 8px 24px rgba(47, 150, 163, 0.16);
-  --shadow-soft-hover: 0 12px 32px rgba(47, 150, 163, 0.24);
+  --shadow-soft: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-soft-hover: 0 12px 32px rgba(0, 0, 0, 0.45);
 }
 
 * { box-sizing: border-box; }
@@ -41,7 +44,7 @@ button, input { font-family: inherit; }
 #app { max-width: 1100px; margin: 0 auto; padding: 16px 16px 48px; }
 
 .app-header { padding: 20px 4px 24px; }
-.app-header h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); margin: 0; font-weight: 800; color: var(--primary-contrast); letter-spacing: -0.02em; }
+.app-header h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); margin: 0; font-weight: 800; color: var(--text-strong); letter-spacing: -0.02em; }
 .app-header__tagline { margin: 4px 0 0; color: var(--text-muted); font-size: 0.95rem; }
 
 .btn {
@@ -53,14 +56,14 @@ button, input { font-family: inherit; }
 .btn:active { transform: scale(0.96); }
 .btn-primary { background: var(--primary); color: var(--primary-contrast); box-shadow: var(--shadow-soft); }
 .btn-primary:hover { background: var(--primary-dark); }
-.btn-secondary { background: var(--bg-2); color: var(--primary-contrast); border: 1.5px solid var(--primary); }
+.btn-secondary { background: var(--bg-2); color: var(--text); border: 1.5px solid var(--primary); }
 .btn-secondary:hover { background: var(--border); }
-.btn-danger { background: var(--danger); color: #7A2E2E; }
-.btn-danger:hover { background: #FF8C8C; }
+.btn-danger { background: var(--danger); color: var(--danger-contrast); }
+.btn-danger:hover { background: var(--danger-dark); }
 .btn-ghost { background: transparent; color: var(--text-muted); }
-.btn-ghost:hover { background: rgba(0, 0, 0, 0.04); }
+.btn-ghost:hover { background: rgba(255, 255, 255, 0.06); }
 .btn-icon-danger {
-  background: var(--danger); color: #7A2E2E; border-radius: 50%;
+  background: var(--danger); color: var(--danger-contrast); border-radius: 50%;
   width: 44px; height: 44px; font-size: 1.1rem; padding: 0; flex-shrink: 0;
   display: flex; align-items: center; justify-content: center;
 }
@@ -91,7 +94,7 @@ button, input { font-family: inherit; }
 .team-mini-row { display: flex; align-items: center; gap: 10px; font-size: .95rem; }
 .team-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.05); }
 .team-mini-name { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.team-mini-name.is-leading { font-weight: 700; color: var(--primary-contrast); }
+.team-mini-name.is-leading { font-weight: 700; color: var(--text-strong); }
 .team-mini-score { font-weight: 700; }
 
 .muted-text { color: var(--text-muted); text-align: center; padding: 24px 0; }
@@ -133,7 +136,7 @@ button, input { font-family: inherit; }
 }
 .team-card__header { display: flex; align-items: center; gap: 8px; }
 .team-color-dot {
-  width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(0, 0, 0, 0.06);
+  width: 28px; height: 28px; border-radius: 50%; border: 2px solid rgba(255, 255, 255, 0.12);
   cursor: pointer; flex-shrink: 0; padding: 0;
 }
 .team-name-input {
@@ -145,7 +148,7 @@ button, input { font-family: inherit; }
   border: none; background: transparent; color: var(--text-muted); font-size: 1.1rem;
   cursor: pointer; width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
 }
-.team-remove-btn:hover { background: var(--danger); color: #7A2E2E; }
+.team-remove-btn:hover { background: var(--danger); color: var(--danger-contrast); }
 
 .team-score-zone { display: flex; align-items: center; justify-content: center; gap: 12px; }
 .team-score-tap {
@@ -179,7 +182,7 @@ button, input { font-family: inherit; }
 
 /* Modals */
 .modal-overlay {
-  position: fixed; inset: 0; background: rgba(6, 40, 43, 0.45); display: flex;
+  position: fixed; inset: 0; background: rgba(35, 38, 52, 0.6); display: flex;
   align-items: center; justify-content: center; padding: 20px; z-index: 100; backdrop-filter: blur(2px);
 }
 .modal {

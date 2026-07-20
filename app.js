@@ -3,9 +3,9 @@
 
   const STORAGE_KEY = 'score-counter-data-v1';
   const PALETTE = [
-    '#FFADAD', '#FFD6A5', '#FDFFB6', '#CAFFBF',
-    '#9BF6FF', '#A0C4FF', '#BDB2FF', '#FFC6FF',
-    '#FFB4B4', '#FFDAC1', '#B5EAD7', '#C7CEEA'
+    '#e78284', '#ef9f76', '#e5c890', '#a6d189',
+    '#81c8be', '#99d1db', '#85c1dc', '#8caaee',
+    '#babbf1', '#ca9ee6', '#f4b8e4', '#eebebe'
   ];
 
   let state = loadState();
@@ -364,7 +364,7 @@
 
   function toHexColor(color) {
     if (/^#([0-9a-f]{3}|[0-9a-f]{6})$/i.test(color)) return color;
-    return '#B8C0FF';
+    return '#babbf1';
   }
 
   // ---------- Modal helpers ----------
