@@ -276,14 +276,25 @@
 
     if (counter.mode === 'manual') {
       const input = document.createElement('input');
-      input.type = 'number';
-      input.inputMode = 'numeric';
+      input.type = 'text';
       input.className = 'team-score-input';
       input.value = team.score;
       input.setAttribute('aria-label', `Score de ${team.name}`);
+      input.title = 'Continue derrière le score avec +5, -3 ou *2 pour calculer, ou tape un nombre pour le fixer';
       input.addEventListener('change', () => {
-        const val = parseInt(input.value, 10);
-        team.score = isNaN(val) ? 0 : val;
+        const raw = input.value.trim();
+        const exprMatch = raw.match(/^(-?\d+)\s*([+\-*])\s*(-?\d+)$/);
+        const deltaMatch = raw.match(/^([+\-*])\s*(-?\d+)$/);
+        if (exprMatch) {
+          const [, a, op, b] = exprMatch;
+          team.score = applyOp(parseInt(a, 10), op, parseInt(b, 10));
+        } else if (deltaMatch) {
+          const [, op, b] = deltaMatch;
+          team.score = applyOp(team.score, op, parseInt(b, 10));
+        } else {
+          const val = parseInt(raw, 10);
+          team.score = isNaN(val) ? 0 : val;
+        }
         input.value = team.score;
         saveState();
       });
@@ -323,6 +334,12 @@
     el.classList.remove('pulse');
     void el.offsetWidth;
     el.classList.add('pulse');
+  }
+
+  function applyOp(a, op, b) {
+    if (op === '+') return a + b;
+    if (op === '-') return a - b;
+    return a * b;
   }
 
   // ---------- Color picker modal ----------
