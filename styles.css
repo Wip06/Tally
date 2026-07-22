@@ -172,11 +172,22 @@ button, input { font-family: inherit; }
 }
 .team-minus-btn:active { transform: scale(0.92); }
 
+.team-score-zone--manual { flex-direction: column; align-items: stretch; gap: 10px; }
+
 .team-score-input {
   width: 100%; text-align: center; font-size: clamp(1.8rem, 7vw, 2.6rem); font-weight: 800;
   border: none; background: var(--bg-1); border-radius: var(--radius-md); padding: 14px 0; color: var(--text);
 }
 .team-score-input:focus { outline: 2px solid var(--primary); }
+
+.team-score-ops { display: flex; gap: 8px; }
+.team-score-op-btn {
+  flex: 1; border: none; background: var(--bg-1); color: var(--text-muted); font-weight: 700;
+  font-size: 1.1rem; border-radius: var(--radius-sm); padding: 10px 0; cursor: pointer;
+  touch-action: manipulation;
+}
+.team-score-op-btn:active { transform: scale(0.94); }
+.team-score-op-btn:hover { background: var(--border); color: var(--text); }
 
 .detail-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 

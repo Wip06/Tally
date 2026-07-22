@@ -275,12 +275,15 @@
     scoreZone.className = 'team-score-zone';
 
     if (counter.mode === 'manual') {
+      scoreZone.classList.add('team-score-zone--manual');
+
       const input = document.createElement('input');
       input.type = 'text';
+      input.inputMode = 'numeric';
       input.className = 'team-score-input';
       input.value = team.score;
       input.setAttribute('aria-label', `Score de ${team.name}`);
-      input.title = 'Continue derrière le score avec +5, -3 ou *2 pour calculer, ou tape un nombre pour le fixer';
+      input.title = 'Tape un nombre pour fixer le score, ou utilise +/-/× pour calculer';
       input.addEventListener('change', () => {
         const raw = input.value.trim();
         const exprMatch = raw.match(/^(-?\d+)\s*([+\-*])\s*(-?\d+)$/);
@@ -298,7 +301,23 @@
         input.value = team.score;
         saveState();
       });
-      scoreZone.appendChild(input);
+
+      const ops = document.createElement('div');
+      ops.className = 'team-score-ops';
+      [['+', '+'], ['-', '−'], ['*', '×']].forEach(([op, label]) => {
+        const opBtn = document.createElement('button');
+        opBtn.type = 'button';
+        opBtn.className = 'team-score-op-btn';
+        opBtn.textContent = label;
+        opBtn.setAttribute('aria-label', `Insérer l'opérateur ${label}`);
+        opBtn.addEventListener('click', () => {
+          input.value = input.value.trim().replace(/[+\-*]\s*$/, '') + op;
+          input.focus();
+        });
+        ops.appendChild(opBtn);
+      });
+
+      scoreZone.append(input, ops);
     } else {
       const scoreDisplay = document.createElement('button');
       scoreDisplay.type = 'button';
