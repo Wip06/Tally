@@ -20,6 +20,8 @@
   <span class="blob blob--2"></span>
   <span class="blob blob--3"></span>
 </div>
+<div id="confetti-layer" class="confetti-layer" aria-hidden="true"></div>
+<div id="win-banner" class="win-banner" hidden></div>
 <div id="app">
   <header class="app-header">
     <h1>Tally</h1>
@@ -49,6 +51,7 @@
     <div class="detail-header">
       <button id="btn-back" class="btn btn-ghost" aria-label="Retour à l'accueil">← Retour</button>
       <input id="counter-name-input" class="counter-name-input" type="text" aria-label="Nom du compteur">
+      <button id="btn-open-settings" class="btn btn-ghost" aria-label="Réglages du compteur">⚙️</button>
       <button id="btn-delete-counter" class="btn btn-icon-danger" aria-label="Supprimer ce compteur">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M3 6h18"/>
@@ -60,16 +63,50 @@
       </button>
     </div>
 
-    <div class="mode-switch" role="tablist" aria-label="Mode de score">
-      <button type="button" class="mode-btn" data-mode="tap" role="tab">Clic +1</button>
-      <button type="button" class="mode-btn" data-mode="manual" role="tab">Libre</button>
-    </div>
-
     <div id="teams-list" class="teams-list"></div>
 
     <div class="detail-actions">
       <button id="btn-add-team" class="btn btn-secondary">+ Ajouter une équipe</button>
+      <button id="btn-open-history" class="btn btn-ghost">Historique</button>
       <button id="btn-reset-scores" class="btn btn-ghost">↺ Réinitialiser les scores</button>
+    </div>
+  </main>
+
+  <main id="view-timer" class="view" hidden>
+    <div class="detail-header">
+      <button id="btn-timer-back" class="btn btn-ghost" aria-label="Retour à l'accueil">← Retour</button>
+      <input id="timer-name-input" class="counter-name-input" type="text" aria-label="Nom du minuteur">
+      <button id="btn-timer-settings" class="btn btn-ghost" aria-label="Réglages du minuteur">⚙️</button>
+      <button id="btn-timer-delete" class="btn btn-icon-danger" aria-label="Supprimer ce minuteur">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M3 6h18"/>
+          <path d="M8 6V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2"/>
+          <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+          <path d="M10 11v6"/>
+          <path d="M14 11v6"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="timer-stage">
+      <div class="timer-ring-wrap">
+        <svg class="timer-ring" viewBox="0 0 200 200" aria-hidden="true" focusable="false">
+          <circle class="timer-ring__track" cx="100" cy="100" r="90"/>
+          <circle id="timer-ring-progress" class="timer-ring__progress" cx="100" cy="100" r="90"/>
+        </svg>
+        <div id="timer-big-display" class="timer-ring-label">05:00</div>
+      </div>
+      <div class="timer-controls">
+        <button id="btn-timer-toggle" type="button" class="btn btn-primary timer-btn-toggle">Démarrer</button>
+        <button id="btn-timer-reset" type="button" class="btn btn-ghost" aria-label="Réinitialiser le minuteur">↺ Réinitialiser</button>
+      </div>
+    </div>
+
+    <div id="timer-teams-list" class="teams-list"></div>
+
+    <div class="detail-actions">
+      <button id="btn-timer-add-team" class="btn btn-secondary">+ Ajouter une équipe</button>
+      <button id="btn-timer-reset-scores" class="btn btn-ghost">↺ Réinitialiser les scores</button>
     </div>
   </main>
 </div>
@@ -77,13 +114,68 @@
 <!-- Modal: nouveau compteur -->
 <div id="modal-new-counter" class="modal-overlay" hidden>
   <div class="modal">
-    <h2>Nouveau compteur</h2>
-    <label>Nom du compteur
+    <h2>Nouveau</h2>
+    <label>Type</label>
+    <div class="mode-switch" role="tablist" aria-label="Type d'élément">
+      <button type="button" class="new-type-btn active" data-type="score" role="tab">Compteur de score</button>
+      <button type="button" class="new-type-btn" data-type="timer" role="tab">Minuteur</button>
+    </div>
+    <label>Nom
       <input id="new-counter-name" type="text" placeholder="Ex : Pétanque" maxlength="60">
+    </label>
+    <label id="new-timer-duration-row" for="new-timer-duration-input" hidden>Durée (minutes)
+      <input id="new-timer-duration-input" type="text" inputmode="numeric" placeholder="5">
     </label>
     <div class="modal-actions">
       <button id="btn-cancel-new-counter" class="btn btn-ghost">Annuler</button>
       <button id="btn-confirm-new-counter" class="btn btn-primary">Créer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: réglages du compteur -->
+<div id="modal-counter-settings" class="modal-overlay" hidden>
+  <div class="modal">
+    <h2>Réglages du compteur</h2>
+    <label>Mode de score</label>
+    <div class="mode-switch" role="tablist" aria-label="Mode de score">
+      <button type="button" class="mode-btn" data-mode="tap" role="tab">Clic +1</button>
+      <button type="button" class="mode-btn" data-mode="manual" role="tab">Libre</button>
+      <button type="button" class="mode-btn" data-mode="tennis" role="tab">Tennis-Padel</button>
+    </div>
+    <label for="target-score-input">Objectif de score</label>
+    <input id="target-score-input" type="text" inputmode="numeric" placeholder="Aucun">
+    <div class="modal-actions">
+      <button id="btn-close-settings" class="btn btn-primary">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: historique des parties -->
+<div id="modal-history" class="modal-overlay" hidden>
+  <div class="modal">
+    <h2>Historique des parties</h2>
+    <div id="history-list" class="history-list"></div>
+    <div class="modal-actions">
+      <button id="btn-close-history" class="btn btn-ghost">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: réglages du minuteur -->
+<div id="modal-timer-settings" class="modal-overlay" hidden>
+  <div class="modal">
+    <h2>Réglages du minuteur</h2>
+    <label for="timer-duration-input">Durée (minutes)</label>
+    <input id="timer-duration-input" type="text" inputmode="numeric" placeholder="5">
+    <label>Mode de score des équipes</label>
+    <div class="mode-switch" role="tablist" aria-label="Mode de score">
+      <button type="button" class="mode-btn" data-mode="tap" role="tab">Clic +1</button>
+      <button type="button" class="mode-btn" data-mode="manual" role="tab">Libre</button>
+      <button type="button" class="mode-btn" data-mode="tennis" role="tab">Tennis-Padel</button>
+    </div>
+    <div class="modal-actions">
+      <button id="btn-close-timer-settings" class="btn btn-primary">Fermer</button>
     </div>
   </div>
 </div>
@@ -113,6 +205,12 @@
       <button id="btn-confirm-ok" class="btn btn-danger">Confirmer</button>
     </div>
   </div>
+</div>
+
+<!-- Alerte d'annulation -->
+<div id="undo-toast" class="undo-toast" hidden>
+  <span id="undo-toast-message"></span>
+  <button id="btn-undo" class="btn btn-secondary">Annuler</button>
 </div>
 
 <!-- Bannière d'installation PWA -->

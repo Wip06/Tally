@@ -1,4 +1,4 @@
-const CACHE_NAME = 'score-counter-v7';
+const CACHE_NAME = 'score-counter-v15';
 const ASSETS = [
   './',
   './index.html',

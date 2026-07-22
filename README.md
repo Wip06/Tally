@@ -6,12 +6,17 @@ Small 100% offline PWA (Progressive Web App) for keeping score for several teams
 
 ## Features
 
-- **Several counters in parallel**, all visible on the home page.
-- For each counter: as many teams as you want, with **customizable name and color**.
-- Two scoring modes, selectable per counter:
+- **Two types of elements**, both created from the home page and mixed freely in the same grid:
+  - **Score counters** — as many teams as you want, with customizable name and color.
+  - **Timers** — a standalone Pomodoro-style circular countdown, with optional teams and scoring.
+- Three scoring modes, selectable per counter (or per timer, if it has teams):
   - **Tap +1**: tap the score to increment it (−1 button to correct).
-  - **Free**: manual score entry.
-- Reset scores, add/remove teams and counters.
+  - **Free**: manual entry, supports quick math like `+5`, `-3`, `*2`.
+  - **Tennis-Padel**: real point ladder (0/15/30/40/Ad), games, sets, and who's serving.
+- **Undo**: an alert with a button to cancel the last score action.
+- **Score target**: set a goal per counter; reaching it triggers a confetti celebration.
+- **Match history**: past games (winner, final score) are logged when scores are reset.
+- Reset scores, add/remove teams and counters/timers.
 - **Works offline** once loaded (service worker + local cache).
 - **Installable** on mobile or desktop as a real app (Add to Home Screen).
 - No sign-up, no data sent anywhere: everything stays in the device's `localStorage`.
