@@ -19,6 +19,7 @@
   let timerTotal = 0;
   let timerRunning = false;
   let timerIntervalId = null;
+  let timerEndAt = 0;
 
   // ---------- Persistence ----------
 
@@ -667,18 +668,25 @@
   function startTimer() {
     if (timerRunning || timerRemaining <= 0) return;
     timerRunning = true;
+    timerEndAt = Date.now() + timerRemaining * 1000;
     updateTimerToggleLabel();
-    timerIntervalId = setInterval(() => {
-      timerRemaining--;
-      if (currentCounterId === timerCounterId) updateTimerDisplay();
-      if (timerRemaining <= 0) {
-        stopTimer();
-        if (currentCounterId === timerCounterId) celebrateTimeUp();
-      }
-    }, 1000);
+    timerIntervalId = setInterval(tickTimer, 1000);
+  }
+
+  function tickTimer() {
+    const remaining = Math.max(0, Math.round((timerEndAt - Date.now()) / 1000));
+    timerRemaining = remaining;
+    if (currentCounterId === timerCounterId) updateTimerDisplay();
+    if (remaining <= 0) {
+      stopTimer();
+      if (currentCounterId === timerCounterId) celebrateTimeUp();
+    }
   }
 
   function stopTimer() {
+    if (timerRunning) {
+      timerRemaining = Math.max(0, Math.round((timerEndAt - Date.now()) / 1000));
+    }
     timerRunning = false;
     clearInterval(timerIntervalId);
     timerIntervalId = null;
@@ -834,6 +842,13 @@
   // ---------- Event wiring ----------
 
   function init() {
+    const catchUpTimer = () => { if (timerRunning) tickTimer(); };
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'visible') catchUpTimer();
+    });
+    window.addEventListener('focus', catchUpTimer);
+    window.addEventListener('pageshow', catchUpTimer);
+
     function openNewCounterModal() {
       const input = document.getElementById('new-counter-name');
       input.value = '';
