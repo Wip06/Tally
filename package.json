@@ -1,0 +1,22 @@
+{
+  "name": "tally",
+  "version": "4.0.0",
+  "private": true,
+  "description": "Tally — compteur de points multi-équipes, hors-ligne (PWA).",
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.ts",
+    "dev": "node scripts/build.ts --watch",
+    "typecheck": "tsc -p tsconfig.json && tsc -p src/sw/tsconfig.json && tsc -p scripts/tsconfig.json",
+    "check": "npm run typecheck && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Wip06/idk.git"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "esbuild": "^0.28.2",
+    "typescript": "^7.0.2"
+  }
+}

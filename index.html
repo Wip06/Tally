@@ -11,8 +11,9 @@
 <meta name="apple-mobile-web-app-title" content="Tally">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
-<link rel="apple-touch-icon" href="icon.svg">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="stylesheet" href="styles.css">
+<!-- tally:theme-boot -->
 </head>
 <body>
 <div class="bg-blobs" aria-hidden="true">
@@ -24,22 +25,34 @@
 <div id="win-banner" class="win-banner" hidden></div>
 <div id="app">
   <header class="app-header">
-    <h1>Tally</h1>
-    <p class="app-header__tagline">Le score de tes équipes, sans prise de tête.</p>
+    <div>
+      <h1>Tally</h1>
+      <p class="app-header__tagline">Le score de tes équipes, sans prise de tête.</p>
+    </div>
+    <button id="btn-open-theme" type="button" class="btn btn-ghost app-header__theme" aria-label="Changer le thème de l'application">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+        <path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/>
+        <circle cx="13.5" cy="6.5" r=".8" fill="currentColor"/>
+        <circle cx="17.5" cy="10.5" r=".8" fill="currentColor"/>
+        <circle cx="6.5" cy="12.5" r=".8" fill="currentColor"/>
+        <circle cx="8.5" cy="7.5" r=".8" fill="currentColor"/>
+      </svg>
+      <span>Thème</span>
+    </button>
   </header>
 
   <main id="view-home" class="view">
-    <div class="home-toolbar" hidden>
+    <div id="home-toolbar" class="home-toolbar" hidden>
       <p id="counters-count" class="counters-count"></p>
       <button id="btn-new-counter" class="btn btn-primary">+ Nouveau compteur</button>
     </div>
     <div id="counters-grid" class="counters-grid"></div>
     <div id="empty-state" class="empty-state" hidden>
       <svg class="empty-state__art" viewBox="0 0 200 140" aria-hidden="true" focusable="false">
-        <ellipse cx="100" cy="122" rx="72" ry="10" fill="#414559"/>
-        <rect x="40" y="70" width="36" height="50" rx="10" fill="#8caaee"/>
-        <rect x="82" y="46" width="36" height="74" rx="10" fill="#ca9ee6"/>
-        <rect x="124" y="82" width="36" height="38" rx="10" fill="#85c1dc"/>
+        <ellipse class="empty-art__shadow" cx="100" cy="122" rx="72" ry="10"/>
+        <rect class="empty-art__bar-1" x="40" y="70" width="36" height="50" rx="10"/>
+        <rect class="empty-art__bar-2" x="82" y="46" width="36" height="74" rx="10"/>
+        <rect class="empty-art__bar-3" x="124" y="82" width="36" height="38" rx="10"/>
       </svg>
       <h2>Aucun compteur pour l'instant</h2>
       <p>Crée ton premier compteur.</p>
@@ -51,7 +64,11 @@
     <div class="detail-header">
       <button id="btn-back" class="btn btn-ghost" aria-label="Retour à l'accueil">← Retour</button>
       <input id="counter-name-input" class="counter-name-input" type="text" aria-label="Nom du compteur">
-      <button id="btn-open-settings" class="btn btn-ghost" aria-label="Réglages du compteur">⚙️</button>
+      <button id="btn-open-settings" class="btn btn-ghost btn-icon" aria-label="Réglages du compteur">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>
+        </svg>
+      </button>
       <button id="btn-delete-counter" class="btn btn-icon-danger" aria-label="Supprimer ce compteur">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M3 6h18"/>
@@ -76,7 +93,11 @@
     <div class="detail-header">
       <button id="btn-timer-back" class="btn btn-ghost" aria-label="Retour à l'accueil">← Retour</button>
       <input id="timer-name-input" class="counter-name-input" type="text" aria-label="Nom du minuteur">
-      <button id="btn-timer-settings" class="btn btn-ghost" aria-label="Réglages du minuteur">⚙️</button>
+      <button id="btn-timer-settings" class="btn btn-ghost btn-icon" aria-label="Réglages du minuteur">
+        <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+          <path d="M21 4h-7M10 4H3M21 12h-9M8 12H3M21 20h-5M12 20H3M14 2v4M8 10v4M16 18v4"/>
+        </svg>
+      </button>
       <button id="btn-timer-delete" class="btn btn-icon-danger" aria-label="Supprimer ce minuteur">
         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
           <path d="M3 6h18"/>
@@ -145,6 +166,8 @@
     </div>
     <label for="target-score-input">Objectif de score</label>
     <input id="target-score-input" type="text" inputmode="numeric" placeholder="Aucun">
+    <label>Apparence</label>
+    <button type="button" class="btn btn-secondary btn-block" data-open-theme>Thème de l'application…</button>
     <div class="modal-actions">
       <button id="btn-close-settings" class="btn btn-primary">Fermer</button>
     </div>
@@ -153,9 +176,9 @@
 
 <!-- Modal: historique des parties -->
 <div id="modal-history" class="modal-overlay" hidden>
-  <div class="modal">
-    <h2>Historique des parties</h2>
-    <div id="history-list" class="history-list"></div>
+  <div class="modal modal--wide">
+    <h2 id="history-title">Historique des parties</h2>
+    <div id="history-body"></div>
     <div class="modal-actions">
       <button id="btn-close-history" class="btn btn-ghost">Fermer</button>
     </div>
@@ -174,6 +197,8 @@
       <button type="button" class="mode-btn" data-mode="manual" role="tab">Libre</button>
       <button type="button" class="mode-btn" data-mode="tennis" role="tab">Tennis-Padel</button>
     </div>
+    <label>Apparence</label>
+    <button type="button" class="btn btn-secondary btn-block" data-open-theme>Thème de l'application…</button>
     <div class="modal-actions">
       <button id="btn-close-timer-settings" class="btn btn-primary">Fermer</button>
     </div>
@@ -191,6 +216,18 @@
     </div>
     <div class="modal-actions">
       <button id="btn-close-color-picker" class="btn btn-ghost">Fermer</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: thème de l'application -->
+<div id="modal-theme" class="modal-overlay modal-overlay--light" hidden>
+  <div class="modal modal--wide">
+    <h2>Thème</h2>
+    <p class="modal-hint">S'applique tout de suite à toute l'application, et reste enregistré sur cet appareil.</p>
+    <div id="theme-options" class="theme-grid"></div>
+    <div class="modal-actions">
+      <button id="btn-close-theme" class="btn btn-primary">Fermer</button>
     </div>
   </div>
 </div>
