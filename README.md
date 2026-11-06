@@ -31,7 +31,7 @@ HTML / CSS / TypeScript, no framework, no runtime dependency, and no JavaScript 
 ```
 index.html          Page structure
 styles.css          Themes (CSS variables per [data-theme]) and responsive layout
-manifest.json       PWA manifest (name, icons, colors)
+manifest.webmanifest  PWA manifest (name, PNG icons, colors)
 icon.svg            App icon (source of the PNG icons next to it)
 scripts/build.ts    Build: compiles src/ and copies the static files into dist/
 
@@ -65,4 +65,4 @@ npm run check      # type-check (tsc) + build
 
 Every push to `main` runs `.github/workflows/deploy.yml`: type-check, build, then publish `dist/` to GitHub Pages. In the repo settings, **Pages → Build and deployment → Source** must be set to **GitHub Actions**.
 
-Bump `CACHE_NAME` in `src/sw/service-worker.ts` with each release so installed apps pick up the new version.
+With each release, bump `version` in `package.json` (shown at the bottom of the app settings) and `CACHE_NAME` in `src/sw/service-worker.ts`. The service worker is network-first: online users always get the latest version; the cached copy is only used offline or when the network takes more than 3 seconds.

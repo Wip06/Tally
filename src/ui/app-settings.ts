@@ -11,6 +11,7 @@ import { initTheme, renderThemeOptions } from './theme';
 export function initAppSettings(onChange: () => void): void {
   initTheme();
   initBackup(onChange);
+  byId('app-version').textContent = `Version ${__APP_VERSION__}`;
 
   const open = (from?: ModalId) => {
     if (from) closeModal(from);

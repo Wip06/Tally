@@ -475,6 +475,8 @@ button, input { font-family: inherit; }
 .backup-text:focus { outline: 2px solid var(--primary); }
 .backup-restore { margin-bottom: 12px; }
 .modal .backup-restore label { margin-bottom: 0; }
+.modal-actions--split { justify-content: space-between; align-items: center; }
+.app-version { font-size: .8rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
 .modal {
   background: var(--surface); border-radius: var(--radius-lg); padding: 24px; width: 100%;
   max-width: 420px; box-shadow: var(--shadow-soft-hover); max-height: 85vh; overflow-y: auto;

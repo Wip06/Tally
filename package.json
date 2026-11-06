@@ -1,6 +1,6 @@
 {
   "name": "tally",
-  "version": "4.0.0",
+  "version": "4.1.0",
   "private": true,
   "description": "Tally — compteur de points multi-équipes, hors-ligne (PWA).",
   "type": "module",

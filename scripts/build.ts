@@ -9,7 +9,7 @@ import { cp, mkdir, readFile, rm, writeFile } from 'node:fs/promises';
 const OUT_DIR = 'dist';
 const STATIC_FILES = [
   'styles.css',
-  'manifest.json',
+  'manifest.webmanifest',
   'icon.svg',
   'icon-192.png',
   'icon-512.png',
@@ -20,8 +20,11 @@ const STATIC_FILES = [
 const THEME_BOOT_PLACEHOLDER = '<!-- tally:theme-boot -->';
 
 const dev = process.argv.includes('--watch');
+const { version } = JSON.parse(await readFile('package.json', 'utf8')) as { version: string };
 
 const bundleOptions: esbuild.BuildOptions = {
+  // Numéro affiché dans les réglages : permet de vérifier quelle version tourne sur un téléphone.
+  define: { __APP_VERSION__: JSON.stringify(version) },
   entryPoints: [
     { in: 'src/main.ts', out: 'app' },
     { in: 'src/sw/service-worker.ts', out: 'sw' },

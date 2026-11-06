@@ -1,23 +1,27 @@
 /// <reference lib="webworker" />
-// Service worker : met l'application en cache pour qu'elle fonctionne hors-ligne.
-// Pense à incrémenter CACHE_NAME à chaque mise en production pour forcer la mise à jour du cache.
+// Service worker : garde une copie de l'application pour qu'elle fonctionne hors-ligne.
+// Stratégie « réseau d'abord » : avec du réseau, on sert toujours la dernière version publiée ;
+// la copie locale ne sert que hors-ligne, ou si le réseau met trop de temps à répondre.
+// Pense à incrémenter CACHE_NAME à chaque mise en production.
 
 export {};
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'score-counter-v17';
+const CACHE_NAME = 'score-counter-v18';
 const ASSETS = [
   './',
   './index.html',
   './styles.css',
   './app.js',
-  './manifest.json',
+  './manifest.webmanifest',
   './icon.svg',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png',
   './apple-touch-icon.png',
 ];
+/** Au-delà, si une copie locale existe, on la sert plutôt que de faire attendre (réseau très lent). */
+const NETWORK_TIMEOUT_MS = 3000;
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -37,23 +41,27 @@ self.addEventListener('activate', event => {
   );
 });
 
-// Répond depuis le cache si possible, et rafraîchit le cache en arrière-plan.
 self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.match(event.request).then(cached => {
-      const network = fetch(event.request)
-        .then(response => {
-          if (response.ok && event.request.url.startsWith(self.location.origin)) {
-            const copy = response.clone();
-            void caches.open(CACHE_NAME).then(cache => cache.put(event.request, copy));
-          }
-          return response;
-        })
-        .catch(() => cached ?? Response.error());
-
-      return cached ?? network;
-    }),
-  );
+  const { request } = event;
+  if (request.method !== 'GET' || !request.url.startsWith(self.location.origin)) return;
+  event.respondWith(networkFirst(event));
 });
+
+async function networkFirst(event: FetchEvent): Promise<Response> {
+  const { request } = event;
+  const cache = await caches.open(CACHE_NAME);
+
+  const network = fetch(request).then(response => {
+    if (response.ok) void cache.put(request, response.clone());
+    return response;
+  });
+  // La mise à jour du cache continue même si on a déjà répondu avec la copie locale.
+  event.waitUntil(network.then(() => undefined, () => undefined));
+
+  const cached =
+    (await cache.match(request)) ?? (request.mode === 'navigate' ? await cache.match('./index.html') : undefined);
+  if (!cached) return network.catch(() => Response.error());
+
+  const timeout = new Promise<Response>(resolve => setTimeout(() => resolve(cached), NETWORK_TIMEOUT_MS));
+  return Promise.race([network, timeout]).catch(() => cached);
+}
