@@ -1,7 +1,6 @@
 import { saveState, state } from '../store';
 import { THEMES, currentTheme, getTheme, setCurrentTheme, themeIconSvg, type Theme, type ThemeId } from '../themes';
 import { button, byId, h } from './dom';
-import { closeModal, openModal, type ModalId } from './modals';
 
 /** Applique le thème courant à la page : variables CSS, couleur de la barre d'état, icône de l'onglet. */
 function paintTheme(theme: Theme): void {
@@ -15,8 +14,13 @@ function paintTheme(theme: Theme): void {
   if (favicon) favicon.href = `data:image/svg+xml,${encodeURIComponent(themeIconSvg(theme))}`;
 }
 
+/** Au démarrage : applique le thème enregistré sur l'appareil. */
+export function initTheme(): void {
+  paintTheme(currentTheme());
+}
+
 /**
- * Les équipes qui portent une couleur du thème précédent prennent la couleur
+ * Les équipes (et l'historique) qui portent une couleur du thème précédent prennent la couleur
  * à la même place dans le nouveau thème. Les couleurs personnalisées ne bougent pas.
  */
 function remapTeamColors(from: Theme, to: Theme): void {
@@ -38,19 +42,26 @@ function remapTeamColors(from: Theme, to: Theme): void {
   if (changed) saveState();
 }
 
-/** Change de thème tout de suite et l'enregistre sur l'appareil. */
+/** Change de thème tout de suite, recolore les équipes et l'enregistre sur l'appareil. */
 function switchTheme(id: ThemeId, onChange: () => void): void {
   const previous = currentTheme();
   if (previous.id === id) return;
-  const next = getTheme(id);
   setCurrentTheme(id);
-  remapTeamColors(previous, next);
-  paintTheme(next);
+  remapTeamColors(previous, getTheme(id));
+  paintTheme(getTheme(id));
   renderThemeOptions(onChange);
   onChange();
 }
 
-function renderThemeOptions(onChange: () => void): void {
+/** Applique un thème sans toucher aux couleurs des équipes (restauration d'une sauvegarde). */
+export function setThemeWithoutRemap(id: ThemeId, onChange: () => void): void {
+  setCurrentTheme(id);
+  paintTheme(getTheme(id));
+  renderThemeOptions(onChange);
+}
+
+/** Grille de choix du thème, dans les réglages de l'application. */
+export function renderThemeOptions(onChange: () => void): void {
   const activeId = currentTheme().id;
   byId('theme-options').replaceChildren(
     ...THEMES.map(theme => {
@@ -81,25 +92,4 @@ function renderThemeOptions(onChange: () => void): void {
       return option;
     }),
   );
-}
-
-/**
- * Prépare le thème au démarrage et le sélecteur « Thème ».
- * `onChange` re-rend la vue affichée (les couleurs d'équipe ont pu changer).
- */
-export function initTheme(onChange: () => void): void {
-  paintTheme(currentTheme());
-
-  const open = (from?: ModalId) => {
-    if (from) closeModal(from);
-    renderThemeOptions(onChange);
-    openModal('modal-theme');
-  };
-
-  byId('btn-open-theme').addEventListener('click', () => open());
-  // Raccourcis depuis les réglages d'un compteur ou d'un minuteur.
-  document.querySelectorAll<HTMLButtonElement>('[data-open-theme]').forEach(btn => {
-    btn.addEventListener('click', () => open(btn.closest<HTMLElement>('.modal-overlay')?.id as ModalId | undefined));
-  });
-  byId('btn-close-theme').addEventListener('click', () => closeModal('modal-theme'));
 }

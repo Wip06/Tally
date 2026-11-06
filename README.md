@@ -14,7 +14,8 @@ Small 100% offline PWA (Progressive Web App) for keeping score for several teams
   - **Free**: manual entry, supports quick math like `+5`, `-3`, `*2`.
   - **Tennis-Padel**: real point ladder (0/15/30/40/Ad), games, sets, and who's serving.
 - **Leader on top**: the team with the best score moves to the top of the list (and stays pinned to the top of the screen while scrolling on mobile). Ties don't dethrone the current leader.
-- **Themes**: 7 color themes (Frappé, Feutre, Terrain, Arcade, Braise, Carnet, Contraste) picked live from the palette button in the header or from any counter's settings. Team colors follow the theme; custom colors are kept. The choice is stored on the device.
+- **Themes**: 7 color themes (Frappé, Feutre, Terrain, Arcade, Braise, Carnet, Contraste) picked live from the app settings (gear in the header, or from any counter's settings). Team colors follow the theme; custom colors are kept. The choice is stored on the device.
+- **Backup**: copy all counters, history and theme as text, then paste it into another install to restore everything (new home-screen icon, new phone…).
 - **Undo**: an alert with a button to cancel the last score action.
 - **Score target**: set a goal per counter; reaching it triggers a confetti celebration.
 - **Match history**: past games are logged when scores are reset. Tap a game to see its detail: ranking, each team's final score, duration, scoring mode and target.

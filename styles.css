@@ -157,7 +157,7 @@ button, input { font-family: inherit; }
 #app { max-width: 1100px; margin: 0 auto; padding: 16px 16px 48px; }
 
 .app-header { padding: 20px 4px 24px; display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
-.app-header__theme { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; flex-shrink: 0; }
+.app-header__settings { display: inline-flex; align-items: center; gap: 8px; padding: 10px 14px; flex-shrink: 0; }
 .app-header h1 { font-size: clamp(1.8rem, 5vw, 2.4rem); margin: 0; font-weight: 800; color: var(--text-strong); letter-spacing: -0.02em; }
 .app-header__tagline { margin: 4px 0 0; color: var(--text-muted); font-size: 0.95rem; }
 
@@ -458,6 +458,23 @@ button, input { font-family: inherit; }
 .theme-preview__dots { display: flex; gap: 4px; flex: 1; }
 .theme-preview__dots span { width: 12px; height: 12px; border-radius: 50%; }
 .theme-preview__goal { width: 18px; height: 8px; border-radius: 999px; background: var(--gold); }
+
+/* Réglages de l'application */
+.settings-section { padding-top: 4px; }
+.settings-section + .settings-section { border-top: 1px solid var(--border); padding-top: 18px; margin-top: 4px; }
+.settings-section h3 { margin: 0 0 4px; font-size: 1rem; color: var(--text-strong); }
+.backup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 12px; }
+.modal .backup-status { font-size: .9rem; font-weight: 600; margin: 0 0 12px; }
+.backup-status[data-tone="ok"] { color: var(--text-strong); }
+.modal .backup-status[data-tone="error"] { color: var(--danger); }
+.backup-text {
+  display: block; width: 100%; margin: 8px 0 12px; padding: 10px 12px; resize: vertical;
+  font: .78rem/1.4 ui-monospace, "SF Mono", Menlo, monospace; color: var(--text);
+  background: var(--bg-1); border: 1px solid var(--border); border-radius: var(--radius-sm);
+}
+.backup-text:focus { outline: 2px solid var(--primary); }
+.backup-restore { margin-bottom: 12px; }
+.modal .backup-restore label { margin-bottom: 0; }
 .modal {
   background: var(--surface); border-radius: var(--radius-lg); padding: 24px; width: 100%;
   max-width: 420px; box-shadow: var(--shadow-soft-hover); max-height: 85vh; overflow-y: auto;
@@ -537,7 +554,7 @@ body.modal-open { overflow: hidden; }
   /* Le sélecteur de thème s'ouvre en bas : le haut de l'app reste visible pendant qu'on essaie. */
   .modal-overlay--light { align-items: flex-end; padding-bottom: calc(12px + env(safe-area-inset-bottom)); }
   .modal-overlay--light .modal { max-height: 62vh; }
-  .app-header__theme span { display: none; }
+  .app-header__settings span { display: none; }
 }
 
 @media (min-width: 640px) {

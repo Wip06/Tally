@@ -29,15 +29,12 @@
       <h1>Tally</h1>
       <p class="app-header__tagline">Le score de tes équipes, sans prise de tête.</p>
     </div>
-    <button id="btn-open-theme" type="button" class="btn btn-ghost app-header__theme" aria-label="Changer le thème de l'application">
+    <button id="btn-open-app-settings" type="button" class="btn btn-ghost app-header__settings" aria-label="Réglages de l'application : thème et sauvegarde">
       <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
-        <path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z"/>
-        <circle cx="13.5" cy="6.5" r=".8" fill="currentColor"/>
-        <circle cx="17.5" cy="10.5" r=".8" fill="currentColor"/>
-        <circle cx="6.5" cy="12.5" r=".8" fill="currentColor"/>
-        <circle cx="8.5" cy="7.5" r=".8" fill="currentColor"/>
+        <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"/>
+        <circle cx="12" cy="12" r="3"/>
       </svg>
-      <span>Thème</span>
+      <span>Réglages</span>
     </button>
   </header>
 
@@ -166,8 +163,8 @@
     </div>
     <label for="target-score-input">Objectif de score</label>
     <input id="target-score-input" type="text" inputmode="numeric" placeholder="Aucun">
-    <label>Apparence</label>
-    <button type="button" class="btn btn-secondary btn-block" data-open-theme>Thème de l'application…</button>
+    <label>Application</label>
+    <button type="button" class="btn btn-secondary btn-block" data-open-app-settings>Thème et sauvegarde…</button>
     <div class="modal-actions">
       <button id="btn-close-settings" class="btn btn-primary">Fermer</button>
     </div>
@@ -197,8 +194,8 @@
       <button type="button" class="mode-btn" data-mode="manual" role="tab">Libre</button>
       <button type="button" class="mode-btn" data-mode="tennis" role="tab">Tennis-Padel</button>
     </div>
-    <label>Apparence</label>
-    <button type="button" class="btn btn-secondary btn-block" data-open-theme>Thème de l'application…</button>
+    <label>Application</label>
+    <button type="button" class="btn btn-secondary btn-block" data-open-app-settings>Thème et sauvegarde…</button>
     <div class="modal-actions">
       <button id="btn-close-timer-settings" class="btn btn-primary">Fermer</button>
     </div>
@@ -220,14 +217,35 @@
   </div>
 </div>
 
-<!-- Modal: thème de l'application -->
-<div id="modal-theme" class="modal-overlay modal-overlay--light" hidden>
+<!-- Modal: réglages de l'application (thème, sauvegarde) -->
+<div id="modal-app-settings" class="modal-overlay modal-overlay--light" hidden>
   <div class="modal modal--wide">
-    <h2>Thème</h2>
-    <p class="modal-hint">S'applique tout de suite à toute l'application, et reste enregistré sur cet appareil.</p>
-    <div id="theme-options" class="theme-grid"></div>
+    <h2>Réglages</h2>
+
+    <section class="settings-section" aria-labelledby="settings-theme-title">
+      <h3 id="settings-theme-title">Thème</h3>
+      <p class="modal-hint">S'applique tout de suite à toute l'application, et reste enregistré sur cet appareil.</p>
+      <div id="theme-options" class="theme-grid"></div>
+    </section>
+
+    <section class="settings-section" aria-labelledby="settings-backup-title">
+      <h3 id="settings-backup-title">Sauvegarde</h3>
+      <p class="modal-hint">Tes compteurs et ton historique ne sont enregistrés que sur cet appareil. Copie une sauvegarde pour les retrouver ailleurs : nouvelle icône sur l'écran d'accueil, autre téléphone…</p>
+      <div class="backup-actions">
+        <button id="btn-backup-copy" type="button" class="btn btn-secondary">Copier une sauvegarde</button>
+        <button id="btn-backup-restore" type="button" class="btn btn-ghost">Restaurer une sauvegarde…</button>
+      </div>
+      <p id="backup-status" class="backup-status" role="status" hidden></p>
+      <textarea id="backup-output" class="backup-text" rows="4" readonly aria-label="Sauvegarde à copier" hidden></textarea>
+      <div id="backup-restore-panel" class="backup-restore" hidden>
+        <label for="backup-input">Colle ta sauvegarde ici</label>
+        <textarea id="backup-input" class="backup-text" rows="4" spellcheck="false" autocomplete="off" autocapitalize="off"></textarea>
+        <button id="btn-backup-apply" type="button" class="btn btn-primary">Restaurer</button>
+      </div>
+    </section>
+
     <div class="modal-actions">
-      <button id="btn-close-theme" class="btn btn-primary">Fermer</button>
+      <button id="btn-close-app-settings" class="btn btn-primary">Fermer</button>
     </div>
   </div>
 </div>

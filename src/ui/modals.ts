@@ -7,7 +7,7 @@ export type ModalId =
   | 'modal-timer-settings'
   | 'modal-color-picker'
   | 'modal-confirm'
-  | 'modal-theme';
+  | 'modal-app-settings';
 
 /** Émis sur l'overlay à chaque fermeture, quelle qu'en soit la cause (bouton, clic à côté…). */
 const MODAL_CLOSED = 'modal:closed';
@@ -20,7 +20,8 @@ export function openModal(id: ModalId): void {
 export function closeModal(id: ModalId): void {
   const overlay = byId(id);
   overlay.hidden = true;
-  document.body.classList.remove('modal-open');
+  // Une confirmation peut s'ouvrir par-dessus une autre modale : on ne débloque le défilement qu'à la dernière.
+  document.body.classList.toggle('modal-open', document.querySelector('.modal-overlay:not([hidden])') !== null);
   overlay.dispatchEvent(new Event(MODAL_CLOSED));
 }
 

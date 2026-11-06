@@ -133,6 +133,13 @@ export function createTimer(name: string, minutes: number): TimerCounter {
   return timer;
 }
 
+/** Remplace tous les compteurs (restauration d'une sauvegarde). Renvoie le nombre de compteurs restaurés. */
+export function replaceAllCounters(raw: readonly unknown[]): number {
+  state.counters = raw.filter(isRecord).map(normalizeCounter);
+  saveState();
+  return state.counters.length;
+}
+
 export function deleteCounter(id: string): void {
   state.counters = state.counters.filter(c => c.id !== id);
   saveState();

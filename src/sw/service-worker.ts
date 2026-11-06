@@ -5,7 +5,7 @@
 export {};
 declare const self: ServiceWorkerGlobalScope;
 
-const CACHE_NAME = 'score-counter-v16';
+const CACHE_NAME = 'score-counter-v17';
 const ASSETS = [
   './',
   './index.html',
